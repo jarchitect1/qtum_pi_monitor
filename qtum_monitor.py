@@ -58,6 +58,10 @@ if __name__ == '__main__':
         cmd = 'echo "QTUM Staking disabled." | /usr/bin/mail -s "QTUM staking disabled." %s' % RECIPIENT_EMAIL
         ssmpt = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         sys.exit()
+    if wallet_info['unlocked_until'] == 0:
+        cmd = 'echo "Pls run qtum-cli -stdin walletpassphrase" | /usr/bin/mail -s "QTUM staking is not unlock." %s' % RECIPIENT_EMAIL
+        ssmpt = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        sys.exit()
     if MONITOR_TEMPERATURE:
         temp_str = subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp'])
         temp = float(temp_str[temp_str.find('=')+1:temp_str.find("'")])
