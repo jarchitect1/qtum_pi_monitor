@@ -97,6 +97,13 @@ if __name__ == '__main__':
     prior_data = json.loads(log_file.read())
     log_file.close()
 
+    # try catch empty string, due to old version of qtum_monitor.log
+    try:
+        print prior_data['date']
+    except:
+       yesterday = datetime.date.today() - datetime.timedelta(1)
+       prior_data['date'] = yesterday.isoformat()
+
     # Report on results
     if latest_data['stake'] > prior_data['stake']:
         latest_data['last_block_time_won'] = int(time.time())
